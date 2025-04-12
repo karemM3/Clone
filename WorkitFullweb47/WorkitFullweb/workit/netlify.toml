@@ -1,0 +1,37 @@
+[images]
+  remote_images = [
+    "https://randomuser.me/api/portraits/*",
+    "https://images.unsplash.com/*"
+  ]
+
+[build]
+  command = "bun run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  command = "bun run start:full"
+  port = 8888
+  targetPort = 5173
+  publish = "dist"
+  autoLaunch = true
+  framework = "#custom"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["dist/**"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  NODE_VERSION = "20"
+  NODE_ENV = "production"
+  MONGODB_URI = "mongodb+srv://khammourkira:hSvkwSmCvtakdlC6@cluster0.nd8nsjk.mongodb.net/sample_mflix?retryWrites=true&w=majority&appName=Cluster0"
